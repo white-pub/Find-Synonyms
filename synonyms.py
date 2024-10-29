@@ -31,6 +31,7 @@ import re
 nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('wordnet')
+print("----------------")
 
 # Contractions to expand (I want to preserve the "no" in the sentence)
 contractions = {
@@ -280,6 +281,8 @@ def run_similarity_test(filename, semantic_descriptors):
     total_questions = 0
     correct_guesses = 0
     
+    print(f"Target Word        Predicted Answer")
+
     try:
         with open(filename, 'r', encoding='utf-8') as file:
             for line in file:
@@ -293,12 +296,16 @@ def run_similarity_test(filename, semantic_descriptors):
                 # Call most_similar_word to get the predicted answer
                 predicted_answer = most_similar_word(word, choices, semantic_descriptors)
                 
+                print(f"{word:15}    {predicted_answer}")
+
                 # Count total questions
                 total_questions += 1
                 
                 # Check if the predicted answer is correct
                 if predicted_answer == correct_answer:
                     correct_guesses += 1
+
+        print("    ============")
 
         # Calculate percentage of correct guesses
         percentage_correct = (correct_guesses / total_questions) * 100
@@ -326,7 +333,7 @@ def run_program(training_data, test_file):
     """
     
     divider = "----------------"
-    print(divider)
+    # print(divider)
 
     print("Find synonym program started...\n")
 
@@ -339,12 +346,11 @@ def run_program(training_data, test_file):
     # Get word context
     all_word_context = build_semantic_descriptors(processed_sentence_list)
     print(f"Finished getting word_context")
-
-    print("    ======")
+    print("    ============")
 
     run_similarity_test(test_file, all_word_context)
+    
     print(f"The training data used: {training_data}")
-
     print(divider)
 
 if __name__ == "__main__":
@@ -356,7 +362,7 @@ if __name__ == "__main__":
     # train with War and Peace
     run_program(["War and Peace by Leo Tolstoy.txt"], "test.txt")
 
-    print("\n============== ⬇️⬇️ Use the altered test file ⬇️⬇️ ============================\n")
+    print("\n========== ⬇️⬇️ Use the altered test file ⬇️⬇️ ==============\n")
     # I altered the test.txt file to make the format fit the description 
     # on the assignment instruction.
 
